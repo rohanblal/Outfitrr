@@ -1,0 +1,88 @@
+<div class="top-bar">
+  <div class="logo">Outfitrr</div>
+    <div class="user-info">
+    Hello, {{userName}} 👋
+  </div>
+
+  <div class="user-menu">
+    <div class="dropdown">
+      <button class="menu-btn" (click)="toggleMenu()">☰</button>
+
+      <div class="dropdown-content" *ngIf="showMenu">
+        <a routerLink="/saved-outfits">Saved Outfits</a>
+        <button (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+  <div style="max-width: 900px; width: 100%">
+    <h2 style="margin-bottom: 20px">Find Matching Pant Colors</h2>
+
+    <div class="upload-grid">
+      <div class="image-section">
+        <h3>Upload Shirt Image</h3>
+
+        <input type="file" (change)="onImageUpload($event)" />
+
+        <canvas #imageCanvas (click)="pickColor($event)"></canvas>
+      </div>
+
+      <div class="controls-section">
+        <h3>Selected Shirt Color</h3>
+
+        <div class="selected-color">
+          <div class="selected-box" [style.background]="hexColor"></div>
+          <span class="hex">{{ hexColor }}</span>
+        </div>
+
+        <label>Or Pick Color</label>
+        <input type="color" [(ngModel)]="hexColor" class="color-picker" />
+
+        <label>Occasion</label>
+        <select [(ngModel)]="occasion">
+          <option value="OFFICE">Office</option>
+          <option value="CASUAL">Casual</option>
+          <option value="PARTY">Party</option>
+        </select>
+
+        <label>Skin Tone</label>
+        <select [(ngModel)]="skinTone">
+          <option value="LIGHT">Light</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="DARK">Dark</option>
+        </select>
+
+        <button (click)="getRecommendations()" [disabled]="isLoading">
+          {{ isLoading ? 'Analyzing...' : 'Get Recommendations' }}
+        </button>
+        <div *ngIf="isLoading" style="margin-top: 15px">
+          <p>{{ loadingMessage }}</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-bottom: 10px">Recommended Pant Colors</h3>
+
+    <div *ngFor="let r of results; let i = index" class="result-card" [class.best]="i === 0">
+      <h4>{{ r.colorCategory }} (Score: {{ r.score }})</h4>
+
+      <div class="color-row">
+        <div
+          class="color-box"
+          *ngFor="let color of pantColorMap[r.colorCategory]"
+          [style.background]="color.hex"
+        >
+          <span class="color-label">{{ color.name }}</span>
+
+          <div class="feedback-buttons">
+            <button (click)="sendFeedback(color.name, true)">👍</button>
+            <button (click)="sendFeedback(color.name, false)">👎</button>
+            <button (click)="saveOutfit(color.name)">💾</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

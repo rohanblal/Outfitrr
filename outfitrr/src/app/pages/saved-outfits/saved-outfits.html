@@ -1,0 +1,40 @@
+<div class="page">
+
+<div style="max-width:900px;width:100%">
+
+<button class="back-btn" (click)="goBack()">← Back</button>
+
+<h2 style="margin-bottom:20px">Saved Outfits</h2>
+
+<div class="outfit-grid">
+
+<div *ngFor="let outfit of outfits" class="outfit-card">
+
+<div class="preview">
+
+<p class="label">Shirt</p>
+<div class="shirt"
+[style.background]="outfit.shirtColorHex">
+</div>
+
+<p class="label">Pant</p>
+<div class="pant"
+[style.background]="outfit.pantColor">
+</div>
+
+</div>
+
+<p><b>Occasion:</b> {{outfit.occasion}}</p>
+<p><b>Skin Tone:</b> {{outfit.skinTone}}</p>
+<button class="delete-btn" (click)="deleteOutfit(outfit.id)">
+  🗑
+</button>
+</div>
+
+</div>
+<p *ngIf="outfits.length === 0" class="empty">
+  No saved outfits yet 😢
+</p>
+</div>
+
+</div>

@@ -1,0 +1,22 @@
+<div class="page">
+
+  <div class="card">
+
+    <h2 style="margin-bottom:25px;text-align:center">Login</h2>
+
+    <label>Email</label>
+    <input [(ngModel)]="user.email" placeholder="Enter email">
+
+    <label>Password</label>
+    <input [(ngModel)]="user.password" type="password" placeholder="Enter password">
+
+    <button style="width:100%" (click)="login()">Login</button>
+
+    <p style="margin-top:15px;text-align:center">
+      Don't have an account?
+      <a routerLink="/register">Register</a>
+    </p>
+
+  </div>
+
+</div>
